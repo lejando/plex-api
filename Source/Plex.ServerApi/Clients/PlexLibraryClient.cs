@@ -283,7 +283,47 @@ namespace Plex.ServerApi.Clients
                     .Build();
 
             await this.apiService.InvokeApiAsync(apiRequest);
+
         }
+
+        /// <inheritdoc/>
+        public async Task UpdateTrackRatingAsync(string authToken, string plexServerHost, string libraryKey,
+            Metadata metadata)
+        {
+            if (authToken == null)
+            {
+                throw new ArgumentNullException(nameof(authToken));
+            }
+
+            if (plexServerHost == null)
+            {
+                throw new ArgumentNullException(nameof(plexServerHost));
+            }
+
+            if (libraryKey == null)
+            {
+                throw new ArgumentNullException(nameof(libraryKey));
+            }
+
+            if (metadata == null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
+
+            var apiRequest =
+                new ApiRequestBuilder(plexServerHost, ":/rate", HttpMethod.Get)
+                    .AddQueryParams(new Dictionary<string, string>()
+                    {
+                        {"identifier", "com.plexapp.plugins.library" },
+                        { "key", metadata.RatingKey },
+                        { "rating", ((int)Math.Floor(metadata.UserRating)).ToString() },
+                        { "X-Plex-Token", authToken }
+                    })
+                    .Build();
+
+            await this.apiService.InvokeApiAsync(apiRequest);
+        }
+
 
         /// <inheritdoc/>
         public async Task<CollectionContainer> GetCollectionAsync(string authToken, string plexServerHost,

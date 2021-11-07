@@ -126,5 +126,14 @@ namespace Plex.Library.ApiModels.Libraries
         /// <returns></returns>
         public async Task<MediaContainer> AllTracks(string sort, int start = 0, int count = 100) =>
             await this.Search( string.Empty, sort, SearchType.Track, null, start, count);
+
+        /// <summary>
+        /// Update the UserRating of a Track 
+        /// </summary>
+        /// <param name="ratingKey">Item Rating Key.</param>
+        /// <param name="metadata">Updated Metadata of Track to Update</param>
+        public async Task UpdateTrackUserRatin(Metadata metadata) =>
+            await this._plexLibraryClient.UpdateTrackRatingAsync(this._server.AccessToken,
+                this._server.Uri.ToString(), this.Key, metadata);
     }
 }

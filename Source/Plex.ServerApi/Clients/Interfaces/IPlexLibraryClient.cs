@@ -261,5 +261,16 @@ namespace Plex.ServerApi.Clients.Interfaces
         /// <returns></returns>
         Task SendPlayQueueToPlayer(string plexServerHost, string authToken, string hostIdentifier, PlayQueueContainer playQueue,
             string type, string playerIdentifier, string transientToken, long offset);
+
+        /// <summary>
+        /// Update UserRating of a Track
+        /// </summary>
+        /// <param name="authToken">Authentication Token.</param>
+        /// <param name="plexServerHost">Full Uri of Plex Media Server Host Instance.</param>
+        /// <param name="libraryKey">Library Key</param>
+        /// <param name="metadata">Metadata of the Track to Update</param>
+        /// <returns></returns>
+        Task UpdateTrackRatingAsync(string authToken, string plexServerHost, string libraryKey,
+            Metadata metadata);
     }
 }
